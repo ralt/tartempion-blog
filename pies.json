@@ -1,0 +1,8 @@
+{
+    "user": {
+        "path": "user"
+    },
+    "post": {
+        "path": "post"
+    }
+}

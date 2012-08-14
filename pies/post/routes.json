@@ -1,0 +1,28 @@
+{
+    "get": [
+        { "/": "index" },
+        { "post/:title": "getOne" },
+        { "post/edit/:title": "editGet" }
+    ],
+    "post": [
+        { "post/edit/:title": {
+            "method": "editPost",
+            "middlewares": [
+                "requireLogged"
+            ]}
+        },
+        { "post/delete/:title": {
+            "method": "delete",
+            "middlewares": [
+                "requireLogged"
+            ]}
+        },
+        { "post/new": {
+            "method": "new",
+            "middlewares": [
+                "requireLogged"
+            ]}
+        }
+    ]
+}
+

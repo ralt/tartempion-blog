@@ -1,0 +1,25 @@
+{
+    "get": [
+        { "user/login": {
+            "method": "loginGet",
+            "middlewares": [
+                "requireGuest"
+            ]}
+        }
+    ],
+    "post": [
+        { "user/login": {
+            "method": "loginPost",
+            "middlewares": [
+                "requireGuest"
+            ]}
+        },
+        { "user/logout": {
+            "method": "logout",
+            "middlewares": [
+                "requireLogged"
+            ]}
+        }
+    ]
+}
+
