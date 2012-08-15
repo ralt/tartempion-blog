@@ -1,6 +1,6 @@
 {
     "get": [
-        { "user/login": {
+        { "/user/login": {
             "method": "loginGet",
             "middlewares": [
                 "requireGuest"
@@ -8,13 +8,13 @@
         }
     ],
     "post": [
-        { "user/login": {
+        { "/user/login": {
             "method": "loginPost",
             "middlewares": [
                 "requireGuest"
             ]}
         },
-        { "user/logout": {
+        { "/user/logout": {
             "method": "logout",
             "middlewares": [
                 "requireLogged"

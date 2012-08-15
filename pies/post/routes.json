@@ -1,23 +1,23 @@
 {
     "get": [
         { "/": "index" },
-        { "post/:title": "getOne" },
-        { "post/edit/:title": "editGet" }
+        { "/post/:title": "getOne" },
+        { "/post/edit/:title": "editGet" }
     ],
     "post": [
-        { "post/edit/:title": {
+        { "/post/edit/:title": {
             "method": "editPost",
             "middlewares": [
                 "requireLogged"
             ]}
         },
-        { "post/delete/:title": {
+        { "/post/delete/:title": {
             "method": "delete",
             "middlewares": [
                 "requireLogged"
             ]}
         },
-        { "post/new": {
+        { "/post/new": {
             "method": "new",
             "middlewares": [
                 "requireLogged"
