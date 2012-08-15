@@ -61,11 +61,26 @@ module.exports = {
     }
 };
 
-// Taken from http://milesj.me/snippets/javascript/slugify
-function slugify(text) {
-    text = text.replace(/[^-a-zA-Z0-9,&\s]+/ifg, '');
-    text = text.replace(/-/gi, "_");
-    text = text.replace(/\s/gi,         "-");
-    return text;
+// Thank you, TomShreds! https://github.com/Brainpad
+function slugify( text ) {
+    var from, i, l, to;
+    str = str.replace( /^\s+|\s+$/g, '' );
+    str = str.toLowerCase();
+    from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:';
+    to = 'aaaaeeeeiiiioooouuuunc------';
+    i = 0;
+    l = from.length;
+    while( i < l ) {
+        str = str.replace(
+            new RegExp( from.charAt( i ), 'g' ),
+            to.charAt( i )
+        );
+        i++;
+    }
+    str = str
+        .replace( /[^a-z0-9 -]/g, '' )
+        .replace( /\s+/g, '-' )
+        .replace( /-+/g, '-' );
+    return str;
 }
 
