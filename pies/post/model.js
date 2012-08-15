@@ -1,66 +1,62 @@
+var Posts;
+
 module.exports = {
-    getAll: function( callback ) {
+    // Run at the initialization, it saves one callback in the
+    // other methods.
+    init: function() {
         this.db.collection( 'posts', function( err, posts ) {
             if ( err ) throw err;
-            posts.find( {}, {
-                limit: 10,
-                sort: 'slug'
-            }).toArray( function( err, posts ) {
-                if ( err ) throw err;
-                callback( posts );
-            });
+            Posts = posts;
+        });
+    },
+
+    getAll: function( callback ) {
+        Posts.find( {}, {
+            limit: 10,
+            sort: 'slug'
+        }).toArray( function( err, posts ) {
+            if ( err ) throw err;
+            callback( posts );
         });
     },
 
     get: function( slug, callback ) {
-        this.db.collection( 'posts', function( err, posts ) {
+        Posts.findOne( { slug: slug }, function( err, post ) {
             if ( err ) throw err;
-            posts.findOne( { slug: slug }, function( err, post ) {
-                if ( err ) throw err;
-                callback( post );
-            });
+            callback( post );
         });
     },
 
     save: function( body, callback ) {
-        this.db.collection( 'posts', function( err, posts ) {
+        var post = {
+            _id: body._id
+            title: body.title,
+            body: body.body,
+            slug: slugify( body.title )
+        };
+        Posts.save( post, function( err, post ) {
             if ( err ) throw err;
-            var post = {
-                _id: body._id
-                title: body.title,
-                body: body.body,
-                slug: slugify( body.title )
-            };
-            posts.save( post, function( err, post ) {
-                if ( err ) throw err;
-                callback( post );
-            });
+            callback( post );
         });
     },
 
     'delete': function( body, callback ) {
-        this.db.collection( 'posts', function( err, posts ) {
+        Posts.remove( { slug: slugify( body.title ) },
+            function( err ) {
             if ( err ) throw err;
-            posts.remove( { slug: slugify( body.title ) },
-                function( err ) {
-                if ( err ) throw err;
-                callback();
-            });
+            callback();
         });
     },
 
     'new': function( body, callback ) {
-        this.db.collection( 'posts', function( err, posts ) {
+        var post = {
+            title: body.title,
+            body: body.body,
+            slug: slugify( body.title )
+        };
+        Posts.save( post, function( err, post ) {
             if ( err ) throw err;
-            var post = {
-                title: body.title,
-                body: body.body,
-                slug: slugify( body.title )
-            };
-            posts.save( post, function( err, post ) {
-                if ( err ) throw err;
-                callback( post );
-            });
+            callback( post );
         });
     }
 };
