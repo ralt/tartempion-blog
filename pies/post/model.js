@@ -1,24 +1,30 @@
-var Posts;
+var Posts,
+    evt = require( '../../core/core.js' ).EventEmitter;
 
 module.exports = {
-    getAll: function( callback ) {
-        loadCollection.bind( this )( function( Posts ) {
-            Posts.find( {}, {
-                limit: 10,
-                sort: 'slug'
-            }).toArray( function( err, posts ) {
+    setup: function() {
+        var that = this;
+        evt.once( 'tartempion', function() {
+            that.db.collection( 'posts', function(err, posts ) {
                 if ( err ) throw err;
-                callback( posts );
+                Posts = posts;
             });
+        });
+    },
+    getAll: function( callback ) {
+        Posts.find( {}, {
+            limit: 10,
+            sort: 'slug'
+        }).toArray( function( err, posts ) {
+            if ( err ) throw err;
+            callback( posts );
         });
     },
 
     get: function( slug, callback ) {
-        loadCollection.bind( this )( function( Posts ) {
-            Posts.findOne( { slug: slug }, function( err, post ) {
-                if ( err ) throw err;
-                callback( post );
-            });
+        Posts.findOne( { slug: slug }, function( err, post ) {
+            if ( err ) throw err;
+            callback( post );
         });
     },
 
@@ -29,21 +35,17 @@ module.exports = {
             body: body.body,
             slug: slugify( body.title )
         };
-        loadCollection.bind( this )( function( Posts ) {
-            Posts.save( post, function( err, post ) {
-                if ( err ) throw err;
-                callback( post );
-            });
+        Posts.save( post, function( err, post ) {
+            if ( err ) throw err;
+            callback( post );
         });
     },
 
     'delete': function( body, callback ) {
-        loadCollection.bind( this )( function( Posts ) {
-            Posts.remove( { slug: slugify( body.title ) },
-                function( err ) {
-                if ( err ) throw err;
-                callback();
-            });
+        Posts.remove( { slug: slugify( body.title ) },
+            function( err ) {
+            if ( err ) throw err;
+            callback();
         });
     },
 
@@ -53,11 +55,9 @@ module.exports = {
             body: body.body,
             slug: slugify( body.title )
         };
-        loadCollection.bind( this )( function( Posts ) {
-            Posts.save( post, function( err, post ) {
-                if ( err ) throw err;
-                callback( post );
-            });
+        Posts.save( post, function( err, post ) {
+            if ( err ) throw err;
+            callback( post );
         });
     }
 };
@@ -83,12 +83,5 @@ function slugify( text ) {
         .replace( /\s+/g, '-' )
         .replace( /-+/g, '-' );
     return str;
-}
-
-function loadCollection( callback ) {
-    this.db.collection( 'posts', function( err, posts ) {
-        if ( err ) throw err;
-        callback( posts );
-    });
 }
 
