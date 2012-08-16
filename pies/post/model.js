@@ -4,7 +4,7 @@ var Posts,
 module.exports = {
     setup: function() {
         var that = this;
-        evt.once( 'tartempion', function() {
+        evt.once( 'db:connected', function() {
             that.db.collection( 'posts', function(err, posts ) {
                 if ( err ) throw err;
                 Posts = posts;

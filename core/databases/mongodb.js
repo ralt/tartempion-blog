@@ -6,7 +6,7 @@ var mongodb = require( 'mongodb' ),
 
 var MongoModule = {};
 
-MongoModule.init = function() {
+MongoModule.setup = function() {
     // Create a mongo client object
     var client = new Db( this.config.databaseName,
         new Server(
@@ -17,13 +17,14 @@ MongoModule.init = function() {
         this.config.options
     );
 
+    var that = this;
 
     // Open the connection
     client.open( function( err, db ) {
         if ( err ) throw err;
         database = db;
         console.log( 'Database driver loaded.' );
-        evt.emit( 'tartempion' );
+        evt.emit( 'db:connected' );
     });
 };
 
