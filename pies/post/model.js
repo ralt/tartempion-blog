@@ -1,12 +1,19 @@
 var Posts,
+    // Object available to share some events within your project
     evt = require( 'tartempion' ).EventEmitter;
 
 module.exports = {
     setup: function() {
         var that = this;
+
+        // Wait for the db to fire its "connected" event
         evt.once( 'db:connected', function() {
+
+            // Open the collection
             that.db.collection( 'posts', function(err, posts ) {
                 if ( err ) throw err;
+
+                // And place it in the closure
                 Posts = posts;
             });
         });
@@ -29,6 +36,9 @@ module.exports = {
     },
 
     save: function( body, callback ) {
+
+        // Create an object with the _id property, so that
+        // mongodb knows that it has to update the document
         var post = {
             _id: body._id,
             title: body.title,
@@ -63,6 +73,9 @@ module.exports = {
 };
 
 // Thank you, TomShreds! https://github.com/Brainpad
+// This function takes a string like "Hello I have an accent! é"
+// and transforms it to "hello-i-have-an-accent-e". It's ideal
+// for the URLs.
 function slugify( text ) {
     var from, i, l, to;
     str = str.replace( /^\s+|\s+$/g, '' );
