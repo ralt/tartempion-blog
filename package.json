@@ -4,6 +4,7 @@
     "dependencies": {
         "tartempion": "0.0.x",
         "bcrypt": "0.7.x",
-        "mongodb": "1.1.x"
+        "mongodb": "1.1.x",
+        "ejs": "0.8.x"
     }
 }
