@@ -1,5 +1,5 @@
 var Posts,
-    evt = require( '../../core/core.js' ).EventEmitter;
+    evt = require( 'tartempion' ).EventEmitter;
 
 module.exports = {
     setup: function() {

@@ -1,1 +1,1 @@
-require( './core/core.js' )();
+require( 'tartempion' )();
