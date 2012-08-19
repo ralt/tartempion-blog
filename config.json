@@ -21,10 +21,13 @@
                     "auto_reconnect": false,
                     "poolSize": 4
                 }
-            },
-            "options": {
-                "native_parser": true
             }
+        }
+    },
+    "test engine": {
+        "name": "mocha",
+        "options": {
+            "reporter": "list"
         }
     }
 }
