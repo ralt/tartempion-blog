@@ -8,6 +8,7 @@
         "template engine": "ejs"
     },
     "session": {
+        "store": "connect-mongodb",
         "secret": "keyboard cat",
         "maxAge": 180000
     },
